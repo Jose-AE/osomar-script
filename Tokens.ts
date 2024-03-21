@@ -1,21 +1,20 @@
 export enum TokenType {
-  KEYWORD, // void, int
-  ID, // myVar, myNum
+  KEYWORD, // Ei, ctm, si, aparte, para, we
+  PUNCTUATION, // . ( ) jajaja nmms [ ]
+  OPERATOR, // +, -, *, /, es, ==, !=, <, >, y, o
+  COMMENT, // // single-line comment
   LITERAL, // 10, 0.2, "Hello"
-  OPERATOR, // +, -, *, /, =, ==, !=, <, >, &&, ||
-  PUNCTUATION, // {   }  (   )   ,  ;
-  COMMENT, // // single-line comment or /* multi-line comment */
+  ID, // myVar, myNum
 }
 
-export const TOKEN_REGEX = {
+export const TOKEN_REGEX: { [key: string]: RegExp } = {
+  KEYWORD: /Ei|ctm|si|aparte|para|we/,
+  PUNCTUATION: /[.\(\)\[\]]|(jajaja|nmms)/,
+  LITERAL: /(([0-9]+(\.[0-9]+)*)|("[ A-Za-z]+"))/,
+  OPERATOR: /([-+*oy<>])|(es|==|!=)|(\/(?!\/))/,
+  COMMENT: /\/\/.*/,
   ID: /[a-zA-Z_][a-zA-Z_0-9]*/,
-  LITERAL: /([0-9.]+)|([A-Za-z]+)/,
-  PUNCTUATION: /[{}(),;]/,
-  OPERATOR: /1/,
-  COMMENT: /1/,
 };
-
-export const TOKEN_KEYWORDS: string[] = ["void", "int", "str"];
 
 export interface IToken {
   type: TokenType;
