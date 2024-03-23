@@ -1,6 +1,6 @@
 import * as util from "util";
 
-import { IToken, TOKEN_REGEX, TokenType } from "./Tokens";
+import { IToken, TOKEN_REGEX, TokenType } from "./tokens";
 
 function tokenize(sourceCode: string): IToken[] {
   const tokenArray = new Array<IToken>();
