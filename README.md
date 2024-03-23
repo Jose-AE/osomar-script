@@ -32,13 +32,13 @@
 
 **TERM** ⟶ FACTOR | TERM "\*" FACTOR | TERM "/" FACTOR
 
-**FACTOR** ⟶ IDENTIFIER | INTEGER | OPEN_PARE EXPRESSION CLOSE_PARE
+**FACTOR** ⟶ IDENTIFIER | NUMBER | OPEN_PARE EXPRESSION CLOSE_PARE
 
 **IDENTIFIER** -> LETTER (LETTER | DIGIT)\*
 
-**INTEGER** -> DIGIT+
+**LETTER** -> "a" | ... | "z" | "A" | ... | "Z"
 
-**LETTER** -> "A" | "B" | ... | "Z" | "A" | "B" | ... | "Z"
+**NUMBER** -> (DIGIT\* ".")?DIGIT+
 
 **DIGIT** -> "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
@@ -46,9 +46,9 @@
 
 **BLOCK_END** ⟶ "nmms"
 
-**OPEN_PARE** ⟶ "("
-
 **CONDITIONAL_SYMBOL** ⟶ "==" | "!=" | "<" | ">" | "<=" | ">="
+
+**OPEN_PARE** ⟶ "("
 
 **CLOSE_PARE** ⟶ ")"
 
