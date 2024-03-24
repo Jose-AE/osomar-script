@@ -53,3 +53,50 @@
 **CLOSE_PARE** ⟶ ")"
 
 **LINE_END** ⟶ "."
+
+# Example Program
+
+```
+
+//Variable declaration and assignment
+Ei myName es "Alice".
+
+// Printing values
+ctm("Hello World").
+
+
+// Conditional statements
+si (age < 18/2)
+    jajaja
+        ctm("You are a minor.").
+    nmms
+
+aparte si (age >= 18 && age < 65)
+    jajaja
+        ctm("You are an adult.").
+    nmms
+aparte
+    jajaja
+        ctm("You are a senior citizen.").
+    nmms
+
+// Looping
+para (Ei i = 0. i < 5. i=i+ 1)
+    jajaja
+        ctm(i)
+    nmms
+
+// Arrays
+Ei fruits = ["apple", "banana", "orange"].
+ctm("Fruits:", fruits).
+
+// Functions
+we myFunction(Ei name)
+    jajaja
+        ctm("Hello, " + name).
+    nmms
+
+// Function call
+myFunction("Bob").
+
+```

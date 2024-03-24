@@ -1,78 +1,78 @@
 import * as util from "util";
 
-import { IToken, TOKEN_REGEX, TokenType } from "./tokens";
-
-function tokenize(sourceCode: string): IToken[] {
-  const tokenArray = new Array<IToken>();
-  let remainingSourceCode = sourceCode;
-
-  while (remainingSourceCode.length > 0) {
-    let foundMatch = false;
-    // Check for each token type
-    for (const tokenType in TokenType) {
-      if (isNaN(Number(tokenType))) continue; //skip strings just get enums
-
-      const regex = TOKEN_REGEX[TokenType[tokenType]];
-      const match = remainingSourceCode.match(regex);
-
-      if (match && match.index === 0) {
-        foundMatch = true;
-        tokenArray.push({
-          type: TokenType[tokenType] as any,
-          value: match[0],
-        });
-        remainingSourceCode = remainingSourceCode.slice(match[0].length);
-        break;
-      }
-    }
-    if (!foundMatch) remainingSourceCode = remainingSourceCode.slice(1);
-  }
-
-  return tokenArray;
+export interface Token {
+  type: TokenType;
+  value: string;
 }
 
-const testProgram = `
-//Variable declaration and assignment
-Ei myName es "Alice".
+//#region TOKEN_DEFENITIONS
 
-// Printing values
-ctm("Hello World").
+export enum TokenType {
+  IGNORE = "IGNORE",
+  NUMERIC_LITERAL = "NUMERIC_LITERAL",
+  STRING_LITERAL = "STRING_LITERAL",
+  OPERATOR_PLUS = " OPERATOR_PLUS",
+  OPERATOR_MINUS = "OPERATOR_MINUS",
+  OPERATOR_MULTIPLY = "OPERATOR_MULTIPLY",
+  OPERATOR_DIVIDE = "OPERATOR_DIVIDE",
+}
 
+export const TOKEN_REGEX: { [key in keyof typeof TokenType]: RegExp } = {
+  IGNORE: /[\n ]/,
+  NUMERIC_LITERAL: /[0-9]+\.?([0-9]+)*/,
+  STRING_LITERAL: /"[^"]*"/,
+  OPERATOR_DIVIDE: /\//,
+  OPERATOR_MINUS: /-/,
+  OPERATOR_MULTIPLY: /\*/,
+  OPERATOR_PLUS: /\+/,
+};
 
-// Conditional statements
-si (age < 18/2) 
-    jajaja
-        ctm("You are a minor.").
-    nmms
+//#endregion
 
-aparte si (age >= 18 && age < 65) 
-    jajaja
-        ctm("You are an adult.").
-    nmms 
-aparte 
-    jajaja
-        ctm("You are a senior citizen.").
-    nmms
+export class Lexer {
+  public static tokenize(sourceCode: string, debug: boolean = false): Token[] {
+    const tokenArray = new Array<Token>();
+    let position = 0;
+    let remainingSourceCode = sourceCode;
 
-// Looping
-para (Ei i = 0. i < 5. i=i+ 1) 
-    jajaja
-        ctm(i)
-    nmms
+    while (remainingSourceCode.length > 0) {
+      let foundMatch = false;
+      // Check for each token type
+      for (const tokenType in TokenType) {
+        const regex = TOKEN_REGEX[tokenType as keyof typeof TOKEN_REGEX];
+        const match = remainingSourceCode.match(regex);
 
-// Arrays
-Ei fruits = ["apple", "banana", "orange"].
-ctm("Fruits:", fruits).
+        if (match && match.index === 0) {
+          foundMatch = true;
 
-// Functions
-we myFunction(Ei name) 
-    jajaja
-        ctm("Hello, " + name).
-    nmms
+          if (tokenType !== TokenType.IGNORE) {
+            tokenArray.push({
+              type: TokenType[tokenType as keyof typeof TokenType],
+              value: match[0],
+            });
+          }
 
-// Function call
-myFunction("Bob").
-`;
+          remainingSourceCode = remainingSourceCode.slice(match[0].length);
+          position++;
 
-const arr = tokenize(testProgram);
-console.log(util.inspect(arr, { maxArrayLength: null, colors: true }));
+          break;
+        }
+      }
+      if (!foundMatch) {
+        throw new SyntaxError(
+          `Invalid token "${remainingSourceCode[0]}" at position ${position}`
+        );
+      }
+    }
+
+    if (debug) {
+      console.log("\n\n\n\n------------[Token Array]-------------");
+      console.log(
+        util.inspect(tokenArray, { maxArrayLength: null, colors: true })
+      );
+      console.log("-------------------------\n\n\n\n");
+    }
+
+    return tokenArray;
+  }
+}
