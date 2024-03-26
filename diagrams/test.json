@@ -1,0 +1,27 @@
+{
+  "type": "PROGRAM_NODE",
+  "body": {
+    "type": "STATEMENT_LIST_NODE",
+    "body": [
+      {
+        "type": "EXPRESSION_STATEMENT_NODE",
+        "expression": {
+          "type": "BIN_OP",
+          "left": {
+            "type": "BIN_OP",
+            "left": { "type": "NUMERIC_LITERAL", "value": 1 },
+            "operator": "+",
+            "right": { "type": "NUMERIC_LITERAL", "value": 2 }
+          },
+          "operator": "+",
+          "right": {
+            "type": "BIN_OP",
+            "left": { "type": "NUMERIC_LITERAL", "value": 3 },
+            "operator": "+",
+            "right": { "type": "NUMERIC_LITERAL", "value": 4 }
+          }
+        }
+      }
+    ]
+  }
+}
