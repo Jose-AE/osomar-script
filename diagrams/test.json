@@ -6,19 +6,14 @@
       {
         "type": "EXPRESSION_STATEMENT_NODE",
         "expression": {
-          "type": "BIN_OP",
-          "left": {
-            "type": "BIN_OP",
-            "left": { "type": "NUMERIC_LITERAL", "value": 1 },
-            "operator": "+",
-            "right": { "type": "NUMERIC_LITERAL", "value": 2 }
-          },
+          "type": "BINARY_EXPRESSION_NODE",
+          "left": { "type": "NUMERIC_LITERAL", "value": 1 },
           "operator": "+",
           "right": {
-            "type": "BIN_OP",
+            "type": "BINARY_EXPRESSION_NODE",
             "left": { "type": "NUMERIC_LITERAL", "value": 3 },
-            "operator": "+",
-            "right": { "type": "NUMERIC_LITERAL", "value": 4 }
+            "operator": "*",
+            "right": { "type": "NUMERIC_LITERAL", "value": 7 }
           }
         }
       }

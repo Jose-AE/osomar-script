@@ -9,12 +9,23 @@ export interface Token {
 
 export enum TokenType {
   IGNORE = "IGNORE",
+
+  //Literals
   NUMERIC_LITERAL = "NUMERIC_LITERAL",
   STRING_LITERAL = "STRING_LITERAL",
-  OPERATOR_PLUS = " OPERATOR_PLUS",
+  TRUE_LITERAL = "TRUE_LITERAL",
+  FALSE_LITERAL = "FALSE_LITERAL",
+  NULL_LITERAL = "NULL_LITERAL",
+
+  //Operators
+  OPERATOR_PLUS = "OPERATOR_PLUS",
   OPERATOR_MINUS = "OPERATOR_MINUS",
   OPERATOR_MULTIPLY = "OPERATOR_MULTIPLY",
   OPERATOR_DIVIDE = "OPERATOR_DIVIDE",
+
+  //Punctuation
+  LEFT_PAREN = "LEFT_PAREN",
+  RIGHT_PAREN = "RIGHT_PAREN",
 }
 
 export const TOKEN_REGEX: { [key in keyof typeof TokenType]: RegExp } = {
@@ -25,6 +36,11 @@ export const TOKEN_REGEX: { [key in keyof typeof TokenType]: RegExp } = {
   OPERATOR_MINUS: /-/,
   OPERATOR_MULTIPLY: /\*/,
   OPERATOR_PLUS: /\+/,
+  LEFT_PAREN: /\(/,
+  RIGHT_PAREN: /\)/,
+  TRUE_LITERAL: /false/,
+  FALSE_LITERAL: /true/,
+  NULL_LITERAL: /null/,
 };
 
 //#endregion

@@ -4,9 +4,50 @@ interface NodeType {
 
 export type Literal = StringLiteral | NumericLiteral;
 
+/**
+ * Main entry point.
+ *
+ * Program
+ *  : StatementList
+ *  ;
+ */
 export interface Program extends NodeType {
-  body: NumericLiteral;
+  body: StatementList;
 }
+
+/**
+ * StatementList
+ *  : (Statement)*
+ *  ;
+ */
+export interface StatementList extends NodeType {
+  body: Statement[];
+}
+
+//#region Statements
+
+export type Statement = ExpressionStatement;
+
+/**
+ * ExpressionStatement
+ *  : Expression ';'
+ *  ;
+ */
+export interface ExpressionStatement extends NodeType {
+  expression: Expression;
+}
+
+//#endregion
+
+//#region Expressions
+export type Expression = BinaryExpression | Literal;
+export interface BinaryExpression extends NodeType {
+  left: Literal | BinaryExpression;
+  right: Literal | BinaryExpression;
+  operator: string;
+}
+
+//#endregion
 
 export interface NumericLiteral extends NodeType {
   value: number;
