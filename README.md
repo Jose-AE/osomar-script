@@ -102,3 +102,41 @@ myFunction("Bob").
 ```
 
 ![alt](https://i.imgur.com/e23go7G.png)
+
+# Syntax
+
+**JS:**
+
+Expression statement: x + y;
+
+Variable declaration: let x = 5;
+
+Assignment: x = 10;
+
+Function declaration: function myFunction(arg1, arg2) {}
+
+Return statement: return true;
+
+Conditional statement: if (x === 5) { /_ code block _/ } else
+
+Loop statement: while (false) { /_ code block _/ }
+
+Null: null
+
+**OsomarScript:**
+
+Expression statement: x + y jajaja
+
+Assignment: x es 10 jajaja
+
+Variable declaration: Ei x es 5 jajaja
+
+Function declaration: we miOsmarfuncion(arg1, arg2) "🃏 🃏"
+
+Return statement: nmms verdad jajaja
+
+Conditional statement: hijo mio si (x == 5) "🃏 🃏" de lo contrario
+
+Loop statement: no digas mamadas mientras (falso) "🃏 🃏"
+
+Null: sepa dios

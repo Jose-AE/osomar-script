@@ -40,12 +40,15 @@ export interface ExpressionStatement extends NodeType {
 //#endregion
 
 //#region Expressions
-export type Expression = BinaryExpression | Literal;
+export type Expression = BinaryExpression | Literal | AssignmentExpression;
+
 export interface BinaryExpression extends NodeType {
   left: Literal | BinaryExpression;
   right: Literal | BinaryExpression;
   operator: string;
 }
+
+export interface AssignmentExpression extends NodeType {}
 
 //#endregion
 

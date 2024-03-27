@@ -2,14 +2,28 @@ import { Lexer } from "./lexer";
 import * as util from "util";
 import { Parser } from "./parser";
 
-const sourceCode = `1+(3+4)+(5+6)`; //1+2+(3+4)+(5+6)
+const sourceCode = `
+x + y jajaja
 
-//1+(3+4)[err]+(5+6)
+x es 10 jajaja
+
+Ei x es 5 jajaja
+
+we miOsmarfuncion(arg1, arg2) "🃏 🃏"
+
+nmms verdad jajaja
+
+hijo mio si (x == 5) "🃏 🃏" de lo contrario
+
+no digas mamadas mientras (falso) "🃏 🃏"
+
+
+`;
 
 function run() {
   let tokens = Lexer.tokenize(sourceCode, true);
 
-  let AST = Parser.parse(tokens, true);
+  //let AST = Parser.parse(tokens, true);
 }
 
 run();

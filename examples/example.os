@@ -3,34 +3,27 @@ neta
 we
 ptm
 ese we
-date
 que te digo
 mamo
 no mames
 no mms
 no digas mamadas
+sepa dios 
+que pedo
+Aja
+ctm
+Hijo mio
 
 // Variable declaration and assignment
-Ei myName es "Alice".
+Ei miNombre es "Osomar" jajaja
 
 // Printing values
-ctm("Hello World").
+ctm("Hello World") jajaja
 
 
 // Conditional statements
-si (age < 18) 
-    jajaja
-        ctm("You are a minor.").
-    nmms
-
-aparte si (age >= 18 && age < 65) 
-    jajaja
-        ctm("You are an adult.").
-    nmms 
-aparte 
-    jajaja
-        ctm("You are a senior citizen.").
-    nmms
+si (age < 18) jajaja ctm("You are a minor."). nmms aparte si (age >= 18 && age < 65) jajaja ctm("You are an adult.").
+nmms aparte jajaja ctm("You are a senior citizen."). nmms
 
 // Looping
 for (let i = 0. i < 5. i++) 
@@ -38,14 +31,13 @@ for (let i = 0. i < 5. i++)
         ctm("Iteration", i).
     nmms
 
-// Arrays
-Ei fruits = ["apple", "banana", "orange"].
-ctm("Fruits:", fruits).
+
 
 // Functions
-we myFunction(Ei name) 
+we myFunction(name) 
     jajaja
         ctm("Hello, " + name).
+        return false;
     nmms
 
 // Function call
