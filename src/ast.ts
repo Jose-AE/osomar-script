@@ -4,23 +4,7 @@ interface NodeType {
 
 export type Literal = StringLiteral | NumericLiteral;
 
-/**
- * Main entry point.
- *
- * Program
- *  : StatementList
- *  ;
- */
 export interface Program extends NodeType {
-  body: StatementList;
-}
-
-/**
- * StatementList
- *  : (Statement)*
- *  ;
- */
-export interface StatementList extends NodeType {
   body: Statement[];
 }
 

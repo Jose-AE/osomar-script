@@ -5,7 +5,6 @@ import {
   NumericLiteral,
   Program,
   Statement,
-  StatementList,
   StringLiteral,
   DeclarationStatement,
   Identifier,
@@ -67,13 +66,10 @@ export class Parser {
 
   private static StatementList(
     stopLookAhead: TokenType | null = null
-  ): StatementList {
-    const statementList: StatementList = {
-      type: "STATEMENT_LIST_NODE",
-      body: [this.Statement()],
-    };
+  ): Statement[] {
+    const statementList: Statement[] = [this.Statement()];
     while (this.peek() != null && this.peek()?.type !== stopLookAhead) {
-      statementList.body.push(this.Statement());
+      statementList.push(this.Statement());
     }
     return statementList;
   }
