@@ -16,6 +16,9 @@ import {
   FalseLiteral,
   NullLiteral,
   TrueLiteral,
+  IfStatement,
+  WhileStatement,
+  CallFunctionStatement,
 } from "./ast";
 import { Token, TokenType } from "./lexer";
 import * as util from "util";
@@ -67,7 +70,7 @@ export class Parser {
 
   //#region PARSING_FUNCTIONS
   private static Program(): Program {
-    return { type: "PROGRAM_NODE", body: this.StatementList() } as Program;
+    return { type: "PROGRAM_NODE", body: this.StatementList() };
   }
 
   private static StatementList(
@@ -97,9 +100,77 @@ export class Parser {
       return this.FunctionDeclarationStatement();
     } else if (tok1 === TokenType.KEYWORD_RETURN) {
       return this.ReturnStatement();
+    } else if (tok1 === TokenType.KEYWORD_IF) {
+      return this.IfStatement();
+    } else if (tok1 === TokenType.KEYWORD_WHILE) {
+      return this.WhileStatement();
+    } else if (tok1 === TokenType.IDENTIFIER && tok2 === TokenType.LEFT_PAREN) {
+      const node = this.CallFunctionStatement();
+      this.eat(TokenType.END_STATEMENT);
+      return node;
     } else {
       return this.ExpressionStatement();
     }
+  }
+  static CallFunctionStatement(): CallFunctionStatement {
+    const functionId = this.Identifier();
+    this.eat(TokenType.LEFT_PAREN);
+    const args: (Expression | CallFunctionStatement)[] = [];
+
+    while (this.peek()?.type !== TokenType.RIGHT_PAREN) {
+      if (
+        this.peek()?.type === TokenType.IDENTIFIER &&
+        this.peek(1)?.type === TokenType.LEFT_PAREN
+      ) {
+        args.push(this.CallFunctionStatement());
+      } else {
+        args.push(this.Expression());
+      }
+
+      if (this.peek()?.type !== TokenType.RIGHT_PAREN)
+        this.eat(TokenType.COMMA);
+    }
+
+    this.eat(TokenType.RIGHT_PAREN);
+
+    return {
+      type: "CALL_FUNCTION_STATEMENT_NODE",
+      functionId,
+      arguments: args,
+    };
+  }
+  static WhileStatement(): WhileStatement {
+    this.eat(TokenType.KEYWORD_WHILE);
+    this.eat(TokenType.LEFT_PAREN);
+    const test = this.Expression();
+    this.eat(TokenType.RIGHT_PAREN);
+
+    const body = this.BlockStatement();
+
+    return { type: "WHILE_STATEMENT_NODE", test, body };
+  }
+  static IfStatement(): IfStatement {
+    this.eat(TokenType.KEYWORD_IF);
+    this.eat(TokenType.LEFT_PAREN);
+    const test = this.Expression();
+    this.eat(TokenType.RIGHT_PAREN);
+
+    const ifTrue = this.BlockStatement();
+
+    let ifFalse: BlockStatement | null | IfStatement = null;
+
+    if (
+      this.peek()?.type === TokenType.KEYWORD_ELSE &&
+      this.peek(1)?.type === TokenType.KEYWORD_IF
+    ) {
+      this.eat(TokenType.KEYWORD_ELSE);
+      ifFalse = this.IfStatement();
+    } else if (this.peek()?.type === TokenType.KEYWORD_ELSE) {
+      this.eat(TokenType.KEYWORD_ELSE);
+      ifFalse = this.BlockStatement();
+    }
+
+    return { type: "IF_STATEMENT_NODE", test, ifTrue, ifFalse };
   }
   static ReturnStatement(): ReturnStatement {
     this.eat(TokenType.KEYWORD_RETURN);
@@ -156,7 +227,7 @@ export class Parser {
       type: "ASSIGNMENT_STATEMENT_NODE",
       id,
       expression,
-    } as AssignmentStatement;
+    };
   }
 
   static DeclarationStatement(): DeclarationStatement {
@@ -175,7 +246,7 @@ export class Parser {
       type: "DECLARATION_STATEMENT_NODE",
       id,
       init,
-    } as DeclarationStatement;
+    };
   }
 
   private static ExpressionStatement(): ExpressionStatement {
@@ -191,7 +262,7 @@ export class Parser {
     return {
       type: token.type,
       name: token.value,
-    } as Identifier;
+    };
   }
 
   //#region BINARY_OPERATIONS_PARSING_FUNCTIONS
@@ -220,6 +291,14 @@ export class Parser {
     return this.BinaryOperation(this.Term.bind(this), [
       TokenType.OPERATOR_MINUS,
       TokenType.OPERATOR_PLUS,
+      TokenType.OPERATOR_EQUALITY,
+      TokenType.OPERATOR_NOT_EQUAL,
+      TokenType.OPERATOR_GREATER_THAN,
+      TokenType.OPERATOR_LESS_THAN,
+      TokenType.OPERATOR_GREATER_THAN_OR_EQUAL,
+      TokenType.OPERATOR_LESS_THAN_OR_EQUAL,
+      TokenType.OPERATOR_AND,
+      TokenType.OPERATOR_OR,
     ]);
   }
 
@@ -284,7 +363,7 @@ export class Parser {
     return {
       type: token.type,
       value: token.value.slice(1, -1),
-    } as StringLiteral;
+    };
   }
 
   private static NumericLiteral(): NumericLiteral {
@@ -292,7 +371,7 @@ export class Parser {
     return {
       type: token.type,
       value: Number(token.value),
-    } as NumericLiteral;
+    };
   }
 
   private static TrueLiteral(): TrueLiteral {

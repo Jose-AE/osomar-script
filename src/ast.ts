@@ -14,7 +14,10 @@ export type Statement =
   | AssignmentStatement
   | FunctionDeclarationStatement
   | BlockStatement
-  | ReturnStatement;
+  | ReturnStatement
+  | IfStatement
+  | WhileStatement
+  | CallFunctionStatement;
 
 export interface ExpressionStatement extends NodeType {
   expression: Expression;
@@ -29,6 +32,11 @@ export interface BinaryExpression extends NodeType {
   left: Literal | BinaryExpression;
   right: Literal | BinaryExpression;
   operator: string;
+}
+
+export interface CallFunctionStatement extends NodeType {
+  functionId: Identifier;
+  arguments: (Expression | CallFunctionStatement)[];
 }
 
 export interface DeclarationStatement extends NodeType {
@@ -48,6 +56,17 @@ export interface ReturnStatement extends NodeType {
 
 export interface BlockStatement extends NodeType {
   body: Statement[];
+}
+
+export interface IfStatement extends NodeType {
+  test: Expression;
+  ifTrue: BlockStatement;
+  ifFalse: BlockStatement | null | IfStatement;
+}
+
+export interface WhileStatement extends NodeType {
+  test: Expression;
+  body: BlockStatement;
 }
 
 //#endregion

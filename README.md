@@ -1,8 +1,58 @@
-# Grammar
+# Example Program
 
-**PROGRAM** ⟶ STATEMENT_LIST
+```
+// Variables
+Ei miNombre es "Osomar" jajaja
+Ei miNumero es 5 jajaja
+Ei miVerdadero es verdad jajaja
+Ei miFalso es falso jajaja
+Ei miNull es sepa dios jajaja
 
-**STATEMENT_LIST** ⟶ STATEMENT | (STATEMENT_LIST STATEMENT)
+
+//Printing
+ctm(miNombre) jajaja
+
+// Conditional statement
+Ei x es 1 jajaja
+
+hijo mio si (x == 1) "🃏
+
+  ctm("Num 1") jajaja
+
+🃏" de lo contrario hijo mio si (x==2) "🃏
+
+  ctm("Num 2") jajaja
+
+🃏" de lo contrario "🃏
+
+  ctm("Num any") jajaja
+
+🃏"
+
+
+// Function
+we MiFuncion(num) "🃏
+  nmms num * num jajaja
+🃏"
+
+ctm(square(5)) jajaja // Output: 25
+
+
+// While loop
+Ei countdown es 3 jajaja
+no digas mamadas mientras (countdown > 0) "🃏
+
+  ctm(countdown)jajaja
+  countdown es countdown - 1 jajaja
+
+🃏"
+```
+
+![alt](https://i.imgur.com/e23go7G.png)
+
+# Grammar (OUTDATED)
+
+**PROGRAM** ⟶ STATEMENT\*
 
 **STATEMENT** ⟶ DECLARATION | ASSIGNMENT | IF_STATEMENT | WHILE_LOOP | PRINT_STATEMENT
 
@@ -53,90 +103,3 @@
 **CLOSE_PARE** ⟶ ")"
 
 **LINE_END** ⟶ "."
-
-# Example Program
-
-```
-
-//Variable declaration and assignment
-Ei myName es "Alice".
-
-// Printing values
-ctm("Hello World").
-
-
-// Conditional statements
-si (age < 18/2)
-    jajaja
-        ctm("You are a minor.").
-    nmms
-
-aparte si (age >= 18 && age < 65)
-    jajaja
-        ctm("You are an adult.").
-    nmms
-aparte
-    jajaja
-        ctm("You are a senior citizen.").
-    nmms
-
-// Looping
-para (Ei i = 0. i < 5. i=i+ 1)
-    jajaja
-        ctm(i)
-    nmms
-
-// Arrays
-Ei fruits = ["apple", "banana", "orange"].
-ctm("Fruits:", fruits).
-
-// Functions
-we myFunction(Ei name)
-    jajaja
-        ctm("Hello, " + name).
-    nmms
-
-// Function call
-myFunction("Bob").
-
-```
-
-![alt](https://i.imgur.com/e23go7G.png)
-
-# Syntax
-
-**JS:**
-
-Expression statement: x + y;
-
-Variable declaration: let x = 5;
-
-Assignment: x = 10;
-
-Function declaration: function myFunction(arg1, arg2) {}
-
-Return statement: return true;
-
-Conditional statement: if (x === 5) { /_ code block _/ } else
-
-Loop statement: while (false) { /_ code block _/ }
-
-Null: null
-
-**OsomarScript:**
-
-Expression statement: x + y jajaja
-
-Assignment: x es 10 jajaja
-
-Variable declaration: Ei x es 5 jajaja
-
-Function declaration: we miOsmarfuncion(arg1, arg2) "🃏 🃏"
-
-Return statement: nmms verdad jajaja
-
-Conditional statement: hijo mio si (x == 5) "🃏 🃏" de lo contrario
-
-Loop statement: no digas mamadas mientras (falso) "🃏 🃏"
-
-Null: sepa dios
