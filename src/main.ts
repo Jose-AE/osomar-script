@@ -4,12 +4,13 @@ import { Parser } from "./parser";
 
 const sourceCode = `
 
+we miOsmarfuncion(arg1, arg2) "🃏 
 
-x + y jajaja
 
-x es 10 jajaja
+nmms sepa dios jajaja
 
-Ei x es (5+x) jajaja
+🃏"
+
 
 `;
 

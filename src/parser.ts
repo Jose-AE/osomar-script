@@ -10,6 +10,12 @@ import {
   Identifier,
   ExpressionStatement,
   AssignmentStatement,
+  FunctionDeclarationStatement,
+  BlockStatement,
+  ReturnStatement,
+  FalseLiteral,
+  NullLiteral,
+  TrueLiteral,
 } from "./ast";
 import { Token, TokenType } from "./lexer";
 import * as util from "util";
@@ -73,6 +79,9 @@ export class Parser {
     }
     return statementList;
   }
+
+  //#region STATMENT_FUNCTIONS
+
   static Statement(): Statement {
     const tok1 = this.peek()?.type;
     const tok2 = this.peek(1)?.type;
@@ -84,10 +93,59 @@ export class Parser {
       tok2 === TokenType.OPERATOR_ASSIGNMENT
     ) {
       return this.AssignmentStatement();
+    } else if (tok1 === TokenType.KEYWORD_FUNCTION) {
+      return this.FunctionDeclarationStatement();
+    } else if (tok1 === TokenType.KEYWORD_RETURN) {
+      return this.ReturnStatement();
     } else {
       return this.ExpressionStatement();
     }
   }
+  static ReturnStatement(): ReturnStatement {
+    this.eat(TokenType.KEYWORD_RETURN);
+    const expression = this.Expression();
+    this.eat(TokenType.END_STATEMENT);
+
+    return {
+      type: "RETURN_STATEMENT_NODE",
+      argument: expression,
+    };
+  }
+  static FunctionDeclarationStatement(): FunctionDeclarationStatement {
+    this.eat(TokenType.KEYWORD_FUNCTION);
+    const id = this.Identifier();
+    this.eat(TokenType.LEFT_PAREN);
+
+    const params: Identifier[] = [];
+    while (this.peek()?.type !== TokenType.RIGHT_PAREN) {
+      params.push(this.Identifier());
+      if (this.peek()?.type !== TokenType.RIGHT_PAREN)
+        this.eat(TokenType.COMMA);
+    }
+    this.eat(TokenType.RIGHT_PAREN);
+
+    const body = this.BlockStatement();
+
+    return {
+      type: "FUNCTION_DECLARATION_STATEMENT_NODE",
+      id,
+      params,
+      body,
+    };
+  }
+
+  static BlockStatement(): BlockStatement {
+    let body: Statement[] = [];
+
+    this.eat(TokenType.BLOCK_START);
+    if (this.peek()?.type !== TokenType.BLOCK_END) {
+      body = this.StatementList(TokenType.BLOCK_END);
+    }
+    this.eat(TokenType.BLOCK_END);
+
+    return { type: "BLOCK_STATEMENT_NODE", body };
+  }
+
   static AssignmentStatement(): AssignmentStatement {
     const id = this.Identifier();
     this.eat(TokenType.OPERATOR_ASSIGNMENT);
@@ -125,6 +183,8 @@ export class Parser {
     this.eat(TokenType.END_STATEMENT);
     return { type: "EXPRESSION_STATEMENT_NODE", expression };
   }
+
+  //#endregion
 
   static Identifier(): Identifier {
     const token = this.eat(TokenType.IDENTIFIER);
@@ -204,6 +264,12 @@ export class Parser {
         return this.NumericLiteral();
       case TokenType.STRING_LITERAL:
         return this.StringLiteral();
+      case TokenType.TRUE_LITERAL:
+        return this.TrueLiteral();
+      case TokenType.FALSE_LITERAL:
+        return this.FalseLiteral();
+      case TokenType.NULL_LITERAL:
+        return this.NullLiteral();
       default:
         throw new SyntaxError(
           `Unexpected literal ("${
@@ -227,6 +293,30 @@ export class Parser {
       type: token.type,
       value: Number(token.value),
     } as NumericLiteral;
+  }
+
+  private static TrueLiteral(): TrueLiteral {
+    const token = this.eat(TokenType.TRUE_LITERAL);
+    return {
+      type: token.type,
+      value: true,
+    };
+  }
+
+  private static FalseLiteral(): FalseLiteral {
+    const token = this.eat(TokenType.FALSE_LITERAL);
+    return {
+      type: token.type,
+      value: false,
+    };
+  }
+
+  private static NullLiteral(): NullLiteral {
+    const token = this.eat(TokenType.NULL_LITERAL);
+    return {
+      type: token.type,
+      value: null,
+    };
   }
   //#endregion
 

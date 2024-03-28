@@ -64,8 +64,8 @@ export const TOKEN_REGEX: { [key in keyof typeof TokenType]: RegExp } = {
 
   NUMERIC_LITERAL: /[0-9]+\.?([0-9]+)*/,
   STRING_LITERAL: /"[^"]*"/,
-  TRUE_LITERAL: /falso/,
-  FALSE_LITERAL: /verdad/,
+  TRUE_LITERAL: /verdad/,
+  FALSE_LITERAL: /falso/,
   NULL_LITERAL: /sepa dios/,
 
   OPERATOR_DIVIDE: /\//,
