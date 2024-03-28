@@ -26,21 +26,21 @@ export interface StatementList extends NodeType {
 
 //#region Statements
 
-export type Statement = ExpressionStatement;
+export type Statement =
+  | ExpressionStatement
+  | DeclarationStatement
+  | AssignmentStatement
+  | FunctionDeclarationStatement
+  | BlockStatement;
 
-/**
- * ExpressionStatement
- *  : Expression ';'
- *  ;
- */
 export interface ExpressionStatement extends NodeType {
   expression: Expression;
 }
 
-//#endregion
-
-//#region Expressions
-export type Expression = BinaryExpression | Literal | AssignmentExpression;
+export interface AssignmentStatement extends NodeType {
+  id: Identifier;
+  expression: Expression;
+}
 
 export interface BinaryExpression extends NodeType {
   left: Literal | BinaryExpression;
@@ -48,9 +48,31 @@ export interface BinaryExpression extends NodeType {
   operator: string;
 }
 
-export interface AssignmentExpression extends NodeType {}
+export interface DeclarationStatement extends NodeType {
+  id: Identifier;
+  init: Expression | null;
+}
+
+export interface FunctionDeclarationStatement extends NodeType {
+  id: Identifier;
+  params: Identifier[];
+  body: BlockStatement;
+}
+
+export interface BlockStatement extends NodeType {
+  body: Statement[];
+}
 
 //#endregion
+
+//#region Expression
+export type Expression = BinaryExpression | Literal | Identifier;
+
+//#endregion
+
+export interface Identifier extends NodeType {
+  name: string;
+}
 
 export interface NumericLiteral extends NodeType {
   value: number;

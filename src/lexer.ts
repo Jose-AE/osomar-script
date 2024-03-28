@@ -13,7 +13,7 @@ export enum TokenType {
   IDENTIFIER = "IDENTIFIER",
 
   //Keywords
-  KEYWORD_ASSIGNMENT = "KEYWORD_ASSIGNMENT",
+  KEYWORD_DECLARATION = "KEYWORD_DECLARATION",
   KEYWORD_FUNCTION = "KEYWORD_FUNCTION",
   KEYWORD_RETURN = "KEYWORD_RETURN",
   KEYWORD_IF = "KEYWORD_IF",
@@ -49,7 +49,7 @@ export enum TokenType {
 export const TOKEN_REGEX: { [key in keyof typeof TokenType]: RegExp } = {
   IGNORE: /[\n ]/,
 
-  KEYWORD_ASSIGNMENT: /Ei/,
+  KEYWORD_DECLARATION: /Ei/,
   KEYWORD_FUNCTION: /we/,
   KEYWORD_RETURN: /nmms/,
   KEYWORD_IF: /hijo mio si/,

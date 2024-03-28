@@ -1,6 +1,5 @@
 import {
   BinaryExpression,
-  ExpressionStatement,
   Literal,
   Expression,
   NumericLiteral,
@@ -8,6 +7,10 @@ import {
   Statement,
   StatementList,
   StringLiteral,
+  DeclarationStatement,
+  Identifier,
+  ExpressionStatement,
+  AssignmentStatement,
 } from "./ast";
 import { Token, TokenType } from "./lexer";
 import * as util from "util";
@@ -75,29 +78,64 @@ export class Parser {
     return statementList;
   }
   static Statement(): Statement {
-    return this.ExpressionStatement();
+    const tok1 = this.peek()?.type;
+    const tok2 = this.peek(1)?.type;
+
+    if (tok1 === TokenType.KEYWORD_DECLARATION)
+      return this.DeclarationStatement();
+    else if (
+      tok1 === TokenType.IDENTIFIER &&
+      tok2 === TokenType.OPERATOR_ASSIGNMENT
+    ) {
+      return this.AssignmentStatement();
+    } else {
+      return this.ExpressionStatement();
+    }
+  }
+  static AssignmentStatement(): AssignmentStatement {
+    const id = this.Identifier();
+    this.eat(TokenType.OPERATOR_ASSIGNMENT);
+    const expression = this.Expression();
+    this.eat(TokenType.END_STATEMENT);
+
+    return {
+      type: "ASSIGNMENT_STATEMENT_NODE",
+      id,
+      expression,
+    } as AssignmentStatement;
+  }
+
+  static DeclarationStatement(): DeclarationStatement {
+    this.eat(TokenType.KEYWORD_DECLARATION);
+    const id = this.Identifier();
+    let init: Expression | null = null;
+
+    if (this.peek()?.type === TokenType.OPERATOR_ASSIGNMENT) {
+      this.eat(TokenType.OPERATOR_ASSIGNMENT);
+      init = this.Expression();
+    }
+
+    this.eat(TokenType.END_STATEMENT);
+
+    return {
+      type: "DECLARATION_STATEMENT_NODE",
+      id,
+      init,
+    } as DeclarationStatement;
   }
 
   private static ExpressionStatement(): ExpressionStatement {
-    ///ADD MORE CASES FOR ASIGMENT EXP ETC
-    return {
-      type: "EXPRESSION_STATEMENT_NODE",
-      expression: this.Expression(),
-    } as ExpressionStatement;
+    const expression = this.Expression();
+    this.eat(TokenType.END_STATEMENT);
+    return { type: "EXPRESSION_STATEMENT_NODE", expression };
   }
 
-  private static Expression(): Expression {
-    switch (this.peek()?.type) {
-      // case "IDENTIFIER":
-      //   return this.Identifier();
-      // case "this":
-      //   return this.ThisExpression();
-      // case "new":
-      //   return this.NewExpression();
-
-      default:
-        return this.Expr();
-    }
+  static Identifier(): Identifier {
+    const token = this.eat(TokenType.IDENTIFIER);
+    return {
+      type: token.type,
+      name: token.value,
+    } as Identifier;
   }
 
   //#region BINARY_OPERATIONS_PARSING_FUNCTIONS
@@ -122,7 +160,7 @@ export class Parser {
     return node;
   }
 
-  private static Expr(): BinaryExpression {
+  private static Expression(): BinaryExpression {
     return this.BinaryOperation(this.Term.bind(this), [
       TokenType.OPERATOR_MINUS,
       TokenType.OPERATOR_PLUS,
@@ -151,12 +189,16 @@ export class Parser {
         this.eat(TokenType.RIGHT_PAREN);
         return node;
 
+      case TokenType.IDENTIFIER:
+        return this.Identifier();
+
       default:
         throw new SyntaxError(
           `Invalid factor "${this.peek()?.value}"  at pos ${this.position}`
         );
     }
   }
+
   //#endregion
 
   //#region LITERAL_PARSING_FUNCTIONS
