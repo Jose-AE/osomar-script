@@ -18,6 +18,7 @@ export enum NodeType {
   RETURN_STATEMENT = "RETURN_STATEMENT",
   ASSIGNMENT_STATEMENT = "ASSIGNMENT_STATEMENT",
   WHILE_STATEMENT = "WHILE_STATEMENT",
+  BREAK_STATEMENT = "BREAK_STATEMENT",
 }
 
 export interface INode {
@@ -37,6 +38,7 @@ export type Statement =
   | FunctionDeclarationStatement
   | BlockStatement
   | ReturnStatement
+  | BreakStatement
   | IfStatement
   | WhileStatement
   | CallFunctionStatement;
@@ -75,6 +77,8 @@ export interface FunctionDeclarationStatement extends INode {
 export interface ReturnStatement extends INode {
   argument: Expression;
 }
+
+export interface BreakStatement extends INode {}
 
 export interface BlockStatement extends INode {
   body: Statement[];

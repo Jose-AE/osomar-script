@@ -14,6 +14,7 @@ import {
   WhileStatement,
   CallFunctionStatement,
   NodeType,
+  BreakStatement,
 } from "./ast";
 import { Token, TokenType } from "./lexer";
 import * as util from "util";
@@ -95,6 +96,8 @@ export class Parser {
       return this.FunctionDeclarationStatement();
     } else if (tok1 === TokenType.KEYWORD_RETURN) {
       return this.ReturnStatement();
+    } else if (tok1 === TokenType.KEYWORD_BREAK) {
+      return this.BreakStatement();
     } else if (tok1 === TokenType.KEYWORD_IF) {
       return this.IfStatement();
     } else if (tok1 === TokenType.KEYWORD_WHILE) {
@@ -179,6 +182,16 @@ export class Parser {
       argument: expression,
     };
   }
+
+  static BreakStatement(): BreakStatement {
+    this.eat(TokenType.KEYWORD_BREAK);
+    this.eat(TokenType.END_STATEMENT);
+
+    return {
+      type: NodeType.BREAK_STATEMENT,
+    };
+  }
+
   static FunctionDeclarationStatement(): FunctionDeclarationStatement {
     this.eat(TokenType.KEYWORD_FUNCTION);
     const id = this.Identifier();

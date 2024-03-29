@@ -5,8 +5,6 @@ import { Program } from "./ast";
 import { Interpreter } from "./interpreter";
 
 const sourceCode = `
-1+1 jajaja
-
 // Variables
 Ei miNombre es "Osomar" jajaja
 Ei miNumero es 5 jajaja
@@ -19,7 +17,7 @@ Ei miNull es sepa dios jajaja
 ctm(miNombre) jajaja
 
 // Conditional statement
-Ei x es 1 jajaja
+Ei x es 3 jajaja
 
 hijo mio si (x == 1) "🃏 
 
@@ -37,8 +35,10 @@ hijo mio si (x == 1) "🃏
 
 
 // Function
-we MiFuncion(num) "🃏
+we square(num) "🃏
   nmms num * num jajaja
+
+  ctm("sadasdasdasdas") jajaja
 🃏"
 
 ctm(square(5)) jajaja // Output: 25
@@ -51,7 +51,10 @@ no digas mamadas mientras (countdown > 0) "🃏
   ctm(countdown)jajaja
   countdown es countdown - 1 jajaja
 
+   mamo jajaja //break 
 🃏"
+
+ctm("done") jajaja
 
 `;
 

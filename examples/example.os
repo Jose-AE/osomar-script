@@ -28,7 +28,7 @@ hijo mio si (x == 1) "🃏
 
 
 // Function
-we MiFuncion(num) "🃏
+we square(num) "🃏
   nmms num * num jajaja
 🃏"
 

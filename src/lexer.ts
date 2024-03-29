@@ -19,6 +19,7 @@ export enum TokenType {
   KEYWORD_IF = "KEYWORD_IF",
   KEYWORD_ELSE = "KEYWORD_ELSE",
   KEYWORD_WHILE = "KEYWORD_WHILE",
+  KEYWORD_BREAK = "KEYWORD_BREAK",
 
   //Punctuation
   LEFT_PAREN = "LEFT_PAREN",
@@ -62,6 +63,7 @@ export const TOKEN_REGEX: { [key in keyof typeof TokenType]: RegExp } = {
   KEYWORD_IF: /hijo mio si/,
   KEYWORD_ELSE: /de lo contrario/,
   KEYWORD_WHILE: /no digas mamadas mientras/,
+  KEYWORD_BREAK: /mamo/,
 
   LEFT_PAREN: /\(/,
   RIGHT_PAREN: /\)/,
@@ -90,7 +92,7 @@ export const TOKEN_REGEX: { [key in keyof typeof TokenType]: RegExp } = {
   OPERATOR_OR: /\|\|/,
 
   IDENTIFIER:
-    /\b(?!Ei|jajaja|es|sepa|dios|verdad|falso|we|nmms|hijo|mio|si|de|lo|contrario|no|digas|mamadas|mientras)[a-zA-Z_][a-zA-Z_0-9]*\b/,
+    /\b(?!Ei|mamo|jajaja|es|sepa|dios|verdad|falso|we|nmms|hijo|mio|si|de|lo|contrario|no|digas|mamadas|mientras)[a-zA-Z_][a-zA-Z_0-9]*\b/,
 
   END_STATEMENT: /jajaja/,
 };
