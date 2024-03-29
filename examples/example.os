@@ -29,7 +29,7 @@ hijo mio si (x == 1) "🃏
 
 // Function
 we square(num) "🃏
-  nmms num * num jajaja
+  nmms num * num jajaja //return num * num 
 🃏"
 
 ctm(square(5)) jajaja // Output: 25
@@ -41,5 +41,13 @@ no digas mamadas mientras (countdown > 0) "🃏
 
   ctm(countdown)jajaja
   countdown es countdown - 1 jajaja
+
+🃏"
+
+
+no digas mamadas mientras (verdad) "🃏 
+
+  ctm("Solo se corre una vez") jajaja
+  mamo jajaja //Break
 
 🃏"
