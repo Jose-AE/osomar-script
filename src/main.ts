@@ -1,8 +1,11 @@
 import { Lexer } from "./lexer";
 import * as util from "util";
 import { Parser } from "./parser";
+import { Program } from "./ast";
+import { Interpreter } from "./interpreter";
 
 const sourceCode = `
+1+1 jajaja
 
 // Variables
 Ei miNombre es "Osomar" jajaja
@@ -55,7 +58,9 @@ no digas mamadas mientras (countdown > 0) "🃏
 function run() {
   let tokens = Lexer.tokenize(sourceCode, true);
 
-  let AST = Parser.parse(tokens, true);
+  let AST: Program = Parser.parse(tokens, true);
+
+  Interpreter.interpret(AST);
 }
 
 run();

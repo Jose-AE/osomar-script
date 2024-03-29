@@ -2,23 +2,18 @@ import {
   BinaryExpression,
   Literal,
   Expression,
-  NumericLiteral,
   Program,
   Statement,
-  StringLiteral,
   DeclarationStatement,
   Identifier,
-  ExpressionStatement,
   AssignmentStatement,
   FunctionDeclarationStatement,
   BlockStatement,
   ReturnStatement,
-  FalseLiteral,
-  NullLiteral,
-  TrueLiteral,
   IfStatement,
   WhileStatement,
   CallFunctionStatement,
+  NodeType,
 } from "./ast";
 import { Token, TokenType } from "./lexer";
 import * as util from "util";
@@ -70,7 +65,7 @@ export class Parser {
 
   //#region PARSING_FUNCTIONS
   private static Program(): Program {
-    return { type: "PROGRAM_NODE", body: this.StatementList() };
+    return { type: NodeType.PROGRAM, body: this.StatementList() };
   }
 
   private static StatementList(
@@ -109,7 +104,9 @@ export class Parser {
       this.eat(TokenType.END_STATEMENT);
       return node;
     } else {
-      return this.ExpressionStatement();
+      const exp = this.Expression();
+      this.eat(TokenType.END_STATEMENT);
+      return exp;
     }
   }
   static CallFunctionStatement(): CallFunctionStatement {
@@ -134,7 +131,7 @@ export class Parser {
     this.eat(TokenType.RIGHT_PAREN);
 
     return {
-      type: "CALL_FUNCTION_STATEMENT_NODE",
+      type: NodeType.CALL_FUNCTION_STATEMENT,
       functionId,
       arguments: args,
     };
@@ -147,7 +144,7 @@ export class Parser {
 
     const body = this.BlockStatement();
 
-    return { type: "WHILE_STATEMENT_NODE", test, body };
+    return { type: NodeType.WHILE_STATEMENT, test, body };
   }
   static IfStatement(): IfStatement {
     this.eat(TokenType.KEYWORD_IF);
@@ -170,7 +167,7 @@ export class Parser {
       ifFalse = this.BlockStatement();
     }
 
-    return { type: "IF_STATEMENT_NODE", test, ifTrue, ifFalse };
+    return { type: NodeType.IF_STATEMENT, test, ifTrue, ifFalse };
   }
   static ReturnStatement(): ReturnStatement {
     this.eat(TokenType.KEYWORD_RETURN);
@@ -178,7 +175,7 @@ export class Parser {
     this.eat(TokenType.END_STATEMENT);
 
     return {
-      type: "RETURN_STATEMENT_NODE",
+      type: NodeType.RETURN_STATEMENT,
       argument: expression,
     };
   }
@@ -198,7 +195,7 @@ export class Parser {
     const body = this.BlockStatement();
 
     return {
-      type: "FUNCTION_DECLARATION_STATEMENT_NODE",
+      type: NodeType.FUNCTION_DECLARATION_STATEMENT,
       id,
       params,
       body,
@@ -214,7 +211,7 @@ export class Parser {
     }
     this.eat(TokenType.BLOCK_END);
 
-    return { type: "BLOCK_STATEMENT_NODE", body };
+    return { type: NodeType.BLOCK_STATEMENT, body };
   }
 
   static AssignmentStatement(): AssignmentStatement {
@@ -224,7 +221,7 @@ export class Parser {
     this.eat(TokenType.END_STATEMENT);
 
     return {
-      type: "ASSIGNMENT_STATEMENT_NODE",
+      type: NodeType.ASSIGNMENT_STATEMENT,
       id,
       expression,
     };
@@ -243,16 +240,10 @@ export class Parser {
     this.eat(TokenType.END_STATEMENT);
 
     return {
-      type: "DECLARATION_STATEMENT_NODE",
+      type: NodeType.DECLARATION_STATEMENT,
       id,
       init,
     };
-  }
-
-  private static ExpressionStatement(): ExpressionStatement {
-    const expression = this.Expression();
-    this.eat(TokenType.END_STATEMENT);
-    return { type: "EXPRESSION_STATEMENT_NODE", expression };
   }
 
   //#endregion
@@ -260,7 +251,7 @@ export class Parser {
   static Identifier(): Identifier {
     const token = this.eat(TokenType.IDENTIFIER);
     return {
-      type: token.type,
+      type: NodeType.IDENTIFIER,
       name: token.value,
     };
   }
@@ -277,7 +268,7 @@ export class Parser {
       this.eat(opToken?.type);
 
       node = {
-        type: "BINARY_EXPRESSION_NODE",
+        type: NodeType.BINARY_EXPRESSION,
         left: node,
         operator: opToken?.value as string,
         right: func(),
@@ -340,15 +331,32 @@ export class Parser {
   private static Literal(): Literal {
     switch (this.peek()?.type) {
       case TokenType.NUMERIC_LITERAL:
-        return this.NumericLiteral();
+        return {
+          type: NodeType.NUMERIC_LITERAL,
+          value: this.eat(TokenType.NUMERIC_LITERAL).value,
+        };
+
       case TokenType.STRING_LITERAL:
-        return this.StringLiteral();
+        return {
+          type: NodeType.STRING_LITERAL,
+          value: this.eat(TokenType.STRING_LITERAL).value.slice(1, -1),
+        };
+
       case TokenType.TRUE_LITERAL:
-        return this.TrueLiteral();
+        return {
+          type: NodeType.TRUE_LITERAL,
+          value: this.eat(TokenType.TRUE_LITERAL).value,
+        };
       case TokenType.FALSE_LITERAL:
-        return this.FalseLiteral();
+        return {
+          type: NodeType.FALSE_LITERAL,
+          value: this.eat(TokenType.FALSE_LITERAL).value,
+        };
       case TokenType.NULL_LITERAL:
-        return this.NullLiteral();
+        return {
+          type: NodeType.NULL_LITERAL,
+          value: this.eat(TokenType.NULL_LITERAL).value,
+        };
       default:
         throw new SyntaxError(
           `Unexpected literal ("${
@@ -358,45 +366,6 @@ export class Parser {
     }
   }
 
-  private static StringLiteral(): StringLiteral {
-    const token = this.eat(TokenType.STRING_LITERAL);
-    return {
-      type: token.type,
-      value: token.value.slice(1, -1),
-    };
-  }
-
-  private static NumericLiteral(): NumericLiteral {
-    const token = this.eat(TokenType.NUMERIC_LITERAL);
-    return {
-      type: token.type,
-      value: Number(token.value),
-    };
-  }
-
-  private static TrueLiteral(): TrueLiteral {
-    const token = this.eat(TokenType.TRUE_LITERAL);
-    return {
-      type: token.type,
-      value: true,
-    };
-  }
-
-  private static FalseLiteral(): FalseLiteral {
-    const token = this.eat(TokenType.FALSE_LITERAL);
-    return {
-      type: token.type,
-      value: false,
-    };
-  }
-
-  private static NullLiteral(): NullLiteral {
-    const token = this.eat(TokenType.NULL_LITERAL);
-    return {
-      type: token.type,
-      value: null,
-    };
-  }
   //#endregion
 
   //#endregion

@@ -1,3 +1,3 @@
 let x: number[] = [];
 
-console.log(x[0] === null);
+console.log(false || (true && true));
