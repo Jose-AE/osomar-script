@@ -1,3 +1,200 @@
+<a name="readme-top"></a>
+
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://github.com/Jose-AE/osomar-script">
+    <img src="https://i.imgur.com/gXMwYJF.png" alt="Logo" width="80" height="80">
+  </a>
+<h3 align="center">OsomarScript</h3>
+
+  <p align="center">
+    A programming language inspired by JavaScript and infused with the vibrant vibe of Osomar. It is designed to be simple and functional, serving as a proof of concept for making a compiler.
+    <br />
+    <a href="https://github.com/Jose-AE/osomar-script"></a>
+    <br />
+    <a href="https://github.com/Jose-AE/osomar-script/issues">Report Bug</a>
+    ·
+    <a href="https://github.com/Jose-AE/osomar-script/issues">Request Feature</a>
+
+  </p>
+</div>
+
+<!-- ABOUT THE PROJECT -->
+
+# Getting Started
+
+## Instalation
+
+To start using OsomarScript, download the latest executable from the [release page](https://github.com/Jose-AE/osomar-script/releases).
+
+## Your First Program
+
+To begin writing OsomarScript code, create a new file with a .os extension and start coding. Here's a simple "Hello, World!" program:
+
+```js
+// hello.os
+ctm("Hello World") jajaja
+```
+
+## Running Program
+
+To execute the program, run the following command in your terminal while located in the directory containing both your program and the executable:
+
+### Windows
+
+```bash
+$ os-win hello.os
+```
+
+### Linux
+
+```bash
+$ os-linux hello.os
+```
+
+### Mac
+
+```bash
+$ chmod +x ./os-macos
+$ ./os-macos hello.os
+```
+
+# Language Basics
+
+## Syntax
+
+- Comment: `//`
+- Statement End: `jajaja`
+- Code Block Start: `"🃏`
+- Code Block End: `🃏"`
+
+## Data Types
+
+- `number`: Numeric data type for integers and floating-point numbers.
+- `string`: Textual data enclosed in double quotes.
+- `falso`: Logical data type representing False
+- `verdad`: Logical data type representing true
+- `sepa dios`: Represents an intentional absence of any value (null).
+
+## Variables
+
+Variables are declared using the `Ei` keyword, and can be initalized when declared.
+
+```js
+// Uninitialized variable
+Ei x jajaja
+
+// Initialized variable
+Ei y es 10 jajaja
+```
+
+## Operators
+
+- Arithmetic Operators: `+`, `-`, `*`, `/`
+- Comparison Operators: `==`, `!=`, `>`, `<`, `>=`, `<=`
+- Logical Operators: `&&`, `||`
+- Assignment Operator: `es`
+
+## Control Structures
+
+### While loop
+
+- Executes a block of code wrapped in `"🃏 🃏"` as long as the condition inside `()` evaluates to true.
+
+- Declared using the `no digas mamadas mientras` keyword.
+- Break out of the block of code with the keyword `mamo`
+
+```
+no digas mamadas mientras (condition) "🃏
+
+  //Code
+
+🃏"
+
+
+//Infinite loop with break keword
+no digas mamadas mientras (verdad) "🃏
+
+  ctm("start") jajaja //will run
+
+  mamo jajaja //break out of loop
+
+  ctm("end") jajaja //won't run
+
+🃏"
+```
+
+### If Statement
+
+- The if statement allows you to execute a block of code wrapped in `"🃏 🃏"` conditionally based on the condition inside `()`.
+- Declared using the `hijo mio si` keyword.
+- Use the `de lo contrario` keyword to define what to do if the condition is not true.
+
+```
+//Example 3
+hijo mio si (condiition) "🃏
+
+  //Code
+
+🃏"
+
+
+//Example 2
+hijo mio si (condiition) "🃏
+
+  //Code if true
+
+🃏" de lo contrario "🃏
+
+  //Code if false
+
+🃏"
+
+
+```
+
+You can chain If Statements
+
+```
+//Example 3
+
+hijo mio si (condition_1) "🃏
+
+  //if cond 1
+
+🃏" de lo contrario hijo mio si (condition_2) "🃏
+
+  //if cond 2
+
+🃏" de lo contrario "🃏
+
+  //else
+
+🃏"
+```
+
+## Printing
+
+OsomarScript provides a print function to display output to the console, call it with `ctm()`
+
+```
+ctm("Hello world") jajaja
+```
+
+## Functions
+
+Functions allow you to encapsulate reusable pieces of code. They can be declared using the `we` keyword and can accept parameters and return values with the keyword `nmms`.
+
+```
+we square(num) "🃏
+  nmms num * num jajaja //return num * num
+🃏"
+
+ctm(square(5)) jajaja // Output: 25
+
+```
+
 # Example Program
 
 ```
@@ -31,8 +228,8 @@ hijo mio si (x == 1) "🃏
 
 
 // Function
-we MiFuncion(num) "🃏
-  nmms num * num jajaja
+we square(num) "🃏
+  nmms num * num jajaja //return num * num
 🃏"
 
 ctm(square(5)) jajaja // Output: 25
@@ -46,60 +243,12 @@ no digas mamadas mientras (countdown > 0) "🃏
   countdown es countdown - 1 jajaja
 
 🃏"
+
+
+no digas mamadas mientras (verdad) "🃏
+
+  ctm("Solo se corre una vez") jajaja
+  mamo jajaja //Break
+
+🃏"
 ```
-
-![alt](https://i.imgur.com/e23go7G.png)
-
-# Grammar (OUTDATED)
-
-**PROGRAM** ⟶ STATEMENT\*
-
-**STATEMENT** ⟶ DECLARATION | ASSIGNMENT | IF_STATEMENT | WHILE_LOOP | PRINT_STATEMENT
-
-**DECLARATION_KEYWORD** ⟶ "Ei"
-
-**DECLARATION** ⟶ DECLARATION_KEYWORD IDENTIFIER (ASSIGNMENT_SYMBOL EXPRESSION)? LINE_END
-
-**ASSIGNMENT_SYMBOL** ⟶ "es"
-
-**ASSIGNMENT** ⟶ IDENTIFIER ASSIGNMENT_SYMBOL EXPRESSION LINE_END
-
-**IF_KEYWORD** ⟶ "si"
-
-**ELSE_KEYWORD** ⟶ "aparte"
-
-**IF_STATEMENT** ⟶ IF_KEYWORD OPEN_PARE CONDITION CLOSE_PARE BLOCK_START STATEMENT_LIST BLOCK_END (ELSE_KEYWORD BLOCK_START STATEMENT_LIST BLOCK_END)?
-
-**WHILE_KEYWORD** ⟶ "mientras"
-
-**WHILE_LOOP** ⟶ WHILE_KEYWORD OPEN_PARE CONDITION CLOSE_PARE BLOCK_START STATEMENT_LIST BLOCK_END
-
-**PRINT_STATEMENT** ⟶ "ctm" OPEN_PARE EXPRESSION CLOSE_PARE LINE_END
-
-**CONDITION** ⟶ EXPRESSION CONDITIONAL_SYMBOL EXPRESSION
-
-**EXPRESSION** -> TERM | EXPRESSION "+" TERM | EXPRESSION "-" TERM
-
-**TERM** ⟶ FACTOR | TERM "\*" FACTOR | TERM "/" FACTOR
-
-**FACTOR** ⟶ IDENTIFIER | NUMBER | OPEN_PARE EXPRESSION CLOSE_PARE
-
-**IDENTIFIER** -> LETTER (LETTER | DIGIT)\*
-
-**LETTER** -> "a" | ... | "z" | "A" | ... | "Z"
-
-**NUMBER** -> (DIGIT\* ".")?DIGIT+
-
-**DIGIT** -> "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-
-**BLOCK_START** ⟶ "jajaja"
-
-**BLOCK_END** ⟶ "nmms"
-
-**CONDITIONAL_SYMBOL** ⟶ "==" | "!=" | "<" | ">" | "<=" | ">="
-
-**OPEN_PARE** ⟶ "("
-
-**CLOSE_PARE** ⟶ ")"
-
-**LINE_END** ⟶ "."
