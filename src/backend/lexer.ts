@@ -97,6 +97,16 @@ export const TOKEN_REGEX: { [key in keyof typeof TokenType]: RegExp } = {
   END_STATEMENT: /jajaja/,
 };
 
+//Used for more descriptive errors
+export const TOKEN_EXAMPLES: { [key in keyof typeof TokenType]?: string } = {
+  END_STATEMENT: "jajaja",
+  LEFT_PAREN: "(",
+  RIGHT_PAREN: ")",
+  BLOCK_START: `"🃏`,
+  BLOCK_END: `🃏"`,
+  COMMA: `,`,
+};
+
 //#endregion
 
 export class Lexer {

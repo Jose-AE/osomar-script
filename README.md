@@ -34,8 +34,22 @@ Alternatively, you can download the binaries from the [release page](https://git
 
 ## Usage
 
+Compile and run
+
 ```bash
 $ os <filename>.os
+```
+
+Use REPL
+
+```bash
+$ os -r
+```
+
+Show help
+
+```bash
+$ os -h
 ```
 
 ## Your First Program

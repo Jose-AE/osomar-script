@@ -54,4 +54,4 @@ ctm("done") jajaja
 
 `;
 
-Compiler.compile(sourceCode);
+Compiler.compile(sourceCode, true);

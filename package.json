@@ -5,7 +5,7 @@
     "url": "https://github.com/Jose-AE/osomar-script.git"
   },
   "description": "A programming language inspired by JavaScript and infused with the vibrant vibe of Osomar",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "files": [
     "dist"
@@ -20,9 +20,13 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.30",
+    "@types/yargs": "^17.0.32",
     "pkg": "^5.8.1",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.3"
+  },
+  "dependencies": {
+    "yargs": "^17.7.2"
   }
 }

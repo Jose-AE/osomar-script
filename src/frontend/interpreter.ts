@@ -34,12 +34,14 @@ export type RuntimeValue =
   | Function;
 
 export class Interpreter {
-  static interpret(program: Program): void {
+  static interpret(program: Program): RuntimeValue {
     const globalEnv = new Enviorment();
+    let lastEvalValue;
 
     for (const statement of program.body) {
-      this.evaluate(statement, globalEnv);
+      lastEvalValue = this.evaluate(statement, globalEnv);
     }
+    return lastEvalValue;
   }
 
   static evaluate(node: INode, env: Enviorment): RuntimeValue {
@@ -133,10 +135,13 @@ export class Interpreter {
 
         env.declareVar(varName, null);
 
-        if (decNode.init)
-          env.asssignVar(varName, this.evaluate(decNode.init, env));
-
-        return null;
+        if (decNode.init) {
+          const val = this.evaluate(decNode.init, env);
+          env.asssignVar(varName, val);
+          return val;
+        } else {
+          return null;
+        }
 
       case NodeType.ASSIGNMENT_STATEMENT:
         const assigNode = node as AssignmentStatement;

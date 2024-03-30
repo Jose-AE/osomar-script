@@ -16,7 +16,7 @@ import {
   NodeType,
   BreakStatement,
 } from "./ast";
-import { Token, TokenType } from "./lexer";
+import { TOKEN_EXAMPLES, Token, TokenType } from "./lexer";
 import * as util from "util";
 
 export class Parser {
@@ -44,18 +44,25 @@ export class Parser {
     return this.tokens[index];
   }
 
-  public static eat(tokenType: TokenType | null = null) {
+  public static eat(tokenType: TokenType) {
     const token = this.peek();
+
+    const expectedTokenExample =
+      TOKEN_EXAMPLES[tokenType as keyof typeof TOKEN_EXAMPLES];
 
     if (token == null) {
       throw new SyntaxError(
-        `Unexpected end of input, expected: "${tokenType}"`
+        `Unexpected end of input, expected: "${
+          expectedTokenExample ? expectedTokenExample : tokenType
+        }"`
       );
     }
 
     if (token.type !== tokenType) {
       throw new SyntaxError(
-        `Unexpected token: "${token.value}", expected: "${tokenType}"`
+        `Unexpected token: "${token.value}", expected: "${
+          expectedTokenExample ? expectedTokenExample : tokenType
+        }"`
       );
     }
     this.position++;
@@ -278,7 +285,7 @@ export class Parser {
 
     while (operators.includes(this.peek()?.type as TokenType)) {
       const opToken = this.peek();
-      this.eat(opToken?.type);
+      this.eat(opToken?.type as TokenType);
 
       node = {
         type: NodeType.BINARY_EXPRESSION,
