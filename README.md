@@ -24,9 +24,19 @@
 
 # Getting Started
 
-## Instalation
+## Installation
 
-To start using OsomarScript, download the latest executable from the [release page](https://github.com/Jose-AE/osomar-script/releases).
+```bash
+$ npm install osomar-script -g
+```
+
+Alternatively, you can download the binaries from the [release page](https://github.com/Jose-AE/osomar-script/releases) and use them directly, bypassing the npm installation.
+
+## Usage
+
+```bash
+$ os <filename>.os
+```
 
 ## Your First Program
 
@@ -35,29 +45,6 @@ To begin writing OsomarScript code, create a new file with a .os extension and s
 ```js
 // hello.os
 ctm("Hello World") jajaja
-```
-
-## Running Program
-
-To execute the program, run the following command in your terminal while located in the directory containing both your program and the executable:
-
-### Windows
-
-```bash
-$ os-win hello.os
-```
-
-### Linux
-
-```bash
-$ os-linux hello.os
-```
-
-### Mac
-
-```bash
-$ chmod +x ./os-macos
-$ ./os-macos hello.os
 ```
 
 # Language Basics

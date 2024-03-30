@@ -1,14 +1,28 @@
 {
-  "dependencies": {
+  "name": "osomar-script",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jose-AE/osomar-script.git"
+  },
+  "description": "A programming language inspired by JavaScript and infused with the vibrant vibe of Osomar",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "author": "Jose-AE",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc && pkg dist/index.js -t node14-win-x64,node14-linux-x64,node14-macos-x64 -o bin/os"
+  },
+  "bin": {
+    "os": "./dist/index.js"
+  },
+  "devDependencies": {
     "@types/node": "^20.11.30",
     "pkg": "^5.8.1",
     "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0"
-  },
-  "scripts": {
-    "genexe": "tsc src/os.ts && pkg src/os.js -t node14-win-x64,node14-linux-x64,node14-macos-x64 -o dist/os && del /s /q src\\*.js"
-  },
-  "devDependencies": {
+    "tsconfig-paths": "^4.2.0",
     "typescript": "^5.4.3"
   }
 }
