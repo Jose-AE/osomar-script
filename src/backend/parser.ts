@@ -1,3 +1,4 @@
+import { OutputFunctionType } from "../frontend/interpreter";
 import {
   BinaryExpression,
   Literal,
@@ -25,15 +26,19 @@ export class Parser {
 
   //#region MAIN_FUNCTIONS
 
-  public static parse(tokenArray: Token[], debug: boolean = false): Program {
+  public static parse(
+    tokenArray: Token[],
+    debug: boolean = false,
+    outputFunction: OutputFunctionType = console.log
+  ): Program {
     this.tokens = tokenArray;
 
     const program: Program = this.Program();
 
     if (debug) {
-      console.log("\n\n\n\n------------[AST]-------------");
-      console.log(util.inspect(program, false, null, true));
-      console.log("-----------------------------\n\n\n\n");
+      outputFunction("\n\n\n\n------------[AST]-------------");
+      outputFunction(util.inspect(program, false, null, true));
+      outputFunction("-----------------------------\n\n\n\n");
     }
 
     return program;

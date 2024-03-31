@@ -1,4 +1,5 @@
 import * as util from "util";
+import { OutputFunctionType } from "../frontend/interpreter";
 
 export interface Token {
   type: TokenType;
@@ -110,7 +111,11 @@ export const TOKEN_EXAMPLES: { [key in keyof typeof TokenType]?: string } = {
 //#endregion
 
 export class Lexer {
-  public static tokenize(sourceCode: string, debug: boolean = false): Token[] {
+  public static tokenize(
+    sourceCode: string,
+    debug: boolean = false,
+    outputFunction: OutputFunctionType = console.log
+  ): Token[] {
     const tokenArray = new Array<Token>();
     let position = 0;
     let remainingSourceCode = sourceCode;
@@ -146,11 +151,11 @@ export class Lexer {
     }
 
     if (debug) {
-      console.log("\n\n\n\n------------[Token Array]-------------");
-      console.log(
+      outputFunction("\n\n\n\n------------[Token Array]-------------");
+      outputFunction(
         util.inspect(tokenArray, { maxArrayLength: null, colors: true })
       );
-      console.log("-------------------------\n\n\n\n");
+      outputFunction("-------------------------\n\n\n\n");
     }
 
     return tokenArray;

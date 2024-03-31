@@ -5,8 +5,9 @@
     "url": "https://github.com/Jose-AE/osomar-script.git"
   },
   "description": "A programming language inspired by JavaScript and infused with the vibrant vibe of Osomar",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],

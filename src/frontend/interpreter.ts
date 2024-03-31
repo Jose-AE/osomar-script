@@ -18,6 +18,8 @@ import {
 } from "../backend/ast";
 import { Enviorment } from "./enviorment";
 
+export type OutputFunctionType = (...args: RuntimeValue[]) => void;
+
 interface Function {
   name: string;
   params: string[];
@@ -34,7 +36,14 @@ export type RuntimeValue =
   | Function;
 
 export class Interpreter {
-  static interpret(program: Program): RuntimeValue {
+  static outputFunction: OutputFunctionType;
+
+  static interpret(
+    program: Program,
+    outputFunction: OutputFunctionType = console.log
+  ): RuntimeValue {
+    this.outputFunction = outputFunction;
+
     const globalEnv = new Enviorment();
     let lastEvalValue;
 
@@ -167,7 +176,7 @@ export class Interpreter {
       case NodeType.CALL_FUNCTION_STATEMENT:
         const callFunNode = node as CallFunctionStatement;
         if (callFunNode.functionId.name === "ctm") {
-          console.log(
+          this.outputFunction(
             ...callFunNode.arguments.map((v) => this.evaluate(v, env))
           );
           return null;
